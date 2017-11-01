@@ -26,11 +26,7 @@ def generate_frequencies(room_name)
   freq_map = {}
   room_name.split("").each do |char|
     if char != '-'
-      if freq_map[char] == nil
-        freq_map[char] = 1
-      else
-        freq_map[char] += 1
-      end
+      freq_map[char] = freq_map[char].nil? ? 1 : freq_map[char] + 1
     end
   end
 
@@ -80,16 +76,14 @@ puts "The sum of the #{real_rooms.length} real rooms sector ids is: #{sector_id_
 # What is the sector ID of the room where North Pole objects are stored?
 
 def rotate(name, rotation)
-  alphabet = ('a'..'z').to_a
   rot = rotation % 26
   decrypted = name.split("").map do |char|
                 if char == "-"
                   " "
                 else
-                  i = alphabet.index(char)
-                  # puts "char: #{char} index: #{i}"
+                  i = char.ord % 96
                   letter = (i + rot) % 26
-                  alphabet[letter]
+                  (letter + 96).chr
                 end
               end
   decrypted.join("")
